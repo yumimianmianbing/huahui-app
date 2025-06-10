@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>花卉识别系统</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+        .upload-area {
+            border: 2px dashed #ccc;
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        .loading {
+            display: none;
+            color: #666;
+            margin: 10px 0;
+        }
+        #preview img {
+            max-width: 100%;
+            height: auto;
+            margin-top: 20px;
+            border-radius: 8px;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            display: none;
+        }
+        .error {
+            color: #f44336;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #ffebee;
+            border-radius: 4px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>花卉识别系统</h1>
+    <div class="upload-area">
+        <label for="imageInput" class="upload-btn">选择图片</label>
+        <input type="file" id="imageInput" accept="image/*">
+        <p>支持的格式：JPG、JPEG、PNG</p>
+    </div>
+    <div id="loading" class="loading">正在识别中...</div>
+    <div id="error" class="error"></div>
+    <div id="preview"></div>
+    <div id="result" class="result"></div>
+
+    <script>
+        const imageInput = document.getElementById('imageInput');
+        const loading = document.getElementById('loading');
+        const error = document.getElementById('error');
+        const preview = document.getElementById('preview');
+        const result = document.getElementById('result');
+
+        imageInput.addEventListener('change', async function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            // 清除之前的结果和错误
+            error.style.display = 'none';
+            result.style.display = 'none';
+            
+            // 显示加载状态
+            loading.style.display = 'block';
+
+            // 预览图片
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                preview.innerHTML = `<img src="${e.target.result}">`;
+            }
+            reader.readAsDataURL(file);
+
+            try {
+                // 准备表单数据
+                const formData = new FormData();
+                formData.append('image', file);
+
+                // 发送请求
+                const response = await fetch('/api/predict', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || '识别失败');
+                }
+
+                // 显示结果
+                const confidence = (data.confidence * 100).toFixed(2);
+                const displayName = data.chinese_name || data.class_name;
+                result.innerHTML = `
+                    <h2>预测结果</h2>
+                    <p>类别：${displayName}</p>
+                    <p>置信度：${confidence}%</p>
+                    <div class="confidence-bar">
+                        <div class="confidence-level" style="width: ${confidence}%"></div>
+                    </div>
+                `;
+                result.style.display = 'block';
+            } catch (err) {
+                console.error('Error:', err);
+                error.textContent = `错误：${err.message}`;
+                error.style.display = 'block';
+            } finally {
+                loading.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
