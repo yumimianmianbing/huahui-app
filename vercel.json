@@ -1,12 +1,12 @@
-// filepath: c:\Microsoft VS Code\codes\huahui-app\vercel.json
 {
   "version": 2,
   "builds": [
     {
       "src": "backend/api/index.py",
-      "use": "@vercel/python@3.0.2",
+      "use": "@vercel/python@2.0.1",
       "config": {
-        "maxLambdaSize": "15mb"
+        "maxLambdaSize": "15mb",
+        "pythonVersion": "3.8"
       }
     }
   ],
