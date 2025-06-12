@@ -3,13 +3,19 @@
   "builds": [
     {
       "src": "backend/api/index.py",
-      "use": "@vercel/python"
+      "use": "@vercel/python",
+      "config": {
+        "maxLambdaSize": "15mb",
+        "runtime": "python3.9",
+        "buildCommand": "pip install -r requirements.txt"
+      }
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/backend/api/index.py"
+      "dest": "/backend/api/index.py",
+      "methods": ["GET", "POST", "OPTIONS"]
     }
   ],
   "env": {
