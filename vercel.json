@@ -5,7 +5,9 @@
       "src": "backend/api/index.py",
       "use": "@vercel/python@3.1.7",
       "config": {
-        "maxLambdaSize": "15mb"
+        "maxLambdaSize": "15mb",
+        "runtime": "python3.9",
+        "pythonPath": "/usr/local/bin/python3.9"
       }
     }
   ],
@@ -15,5 +17,8 @@
       "dest": "/backend/api/index.py",
       "methods": ["GET", "POST", "OPTIONS"]
     }
-  ]
+  ],
+  "env": {
+    "PYTHON_VERSION": "3.9"
+  }
 }
