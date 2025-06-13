@@ -7,8 +7,8 @@
       "config": {
         "maxLambdaSize": "15mb",
         "pythonVersion": "3.9",
-        "installCommand": "pip3 install --disable-pip-version-check --target . --upgrade -r /vercel/path0/requirements.txt -i https://mirrors.aliyun.com/pypi/simple/"
-       
+        "installCommand": "pip3 install --disable-pip-version-check --target . --upgrade -r /vercel/path0/requirements.txt -i https://mirror.tuna.tsinghua.edu.cn/tensorflow/pypi/simple/"
+        
       }
     }
   ],
