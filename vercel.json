@@ -5,7 +5,9 @@
       "src": "backend/api/index.py",
       "use": "@vercel/python@2.0.1",
       "config": {
-        "maxLambdaSize": "15mb"
+        "maxLambdaSize": "15mb",
+        "pythonVersion": "3.9" , 
+        "installCommand": "pip3.9 install -r requirements.txt" 
       }
     }
   ],

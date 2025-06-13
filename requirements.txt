@@ -1,5 +1,5 @@
-flask==2.0.1
-werkzeug==1.0.1
-tensorflow-cpu==2.8.0
-numpy==1.21.6
-pillow==9.0.0
+flask==2.0.1       # 兼容Python 3.7+
+werkzeug==1.0.1    # 兼容Python 3.6+
+tensorflow-cpu==2.8.0  # 兼容Python 3.7-3.9
+numpy==1.21.6      # 兼容Python 3.7+
+pillow==9.0.0      # 兼容Python 3.6+
